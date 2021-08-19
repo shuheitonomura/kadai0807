@@ -1,0 +1,100 @@
+@charset"utf-8";
+
+body{
+    width: 1250px;
+    background-color: beige;
+}
+
+
+.main-visual{
+    position: relative;
+    display: block;
+    width: 50%;
+    height: auto;
+}
+
+.title{
+    position:absolute;
+    color:white;
+    font-weight: bold;
+    font-size: 3em;
+    top: 0;
+    left: 10%;
+    animation: flowing 10s linear infinite;
+    transform:translateX(100%) /*最初の位置*/
+}
+
+@keyframes flowing{
+    100%{
+        transform:translateX(-100%); /*終了の位置*/
+    }
+}
+
+.sosyal {
+    margin: 20px auto;
+    text-align: left;
+}
+.facebook {
+    background-color: #2e4a88;
+    box-shadow: 0 4px 0 #1B3D82;
+    text-shadow: 0 -1px -1px #1B3D82;
+    
+    display: inline;
+    position: relative;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 20px;
+}
+.facebook:hover {
+    background-color: #354F84;
+}
+.facebook:active {
+    top: 2px;
+    box-shadow: 0 2px 0 #1B3D82;
+}
+.twitter {
+    background-color: #008DDE;
+    box-shadow: 0 4px 0 #0078BD;
+    
+    display: inline;
+    position: relative;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 30px;
+}
+.twitter:active {
+    top: 2px;
+    box-shadow: 0 2px 0 #0078BD;
+}
+.twitter:hover {
+    background-color: #1397D8;
+}
+
+textarea{
+    resize: none;
+    width: 300px;
+    height: 100px;
+}
+
+.way{
+    margin-left: 5px;
+}
+
+.means{
+    font-size: small;
+}
+
+img{
+    width: 100%;
+    height: auto;
+}

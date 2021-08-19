@@ -1,0 +1,274 @@
+    <!DOCTYPE html>
+    <html lang="ja">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>誕生日メモ</title>
+    <link rel="stylesheet" href="css/sample.css">
+    </head>
+
+    
+
+    <body>
+    <header>
+        <div class="main-visual">
+        <img src="imagess/cake.jpg" alt="">
+        <h1 class="title">Birthday memo</h1>
+        </div>
+    </header>
+
+
+    </main>
+        <form>
+        <ul>
+        <li>
+        <div class="nativeDatePicker">
+        <label for="bday">生年月日</label>
+        <input type="date" id="bday" name="bday">
+        <span class="validity"></span>
+        </div>
+        
+        <p class="fallbackLabel">生年月日</p>
+        <div class="fallbackDatePicker">
+        <span>
+        <select id="year" name="year"></select>
+        <label for="year">year</label>
+        </span>
+        
+        <span>
+        <select id="month" name="month">
+        <option selected>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        </select>
+        <label for="month">month</label>
+        </span>
+
+        <span>
+        <select id="day" name="day"></select>
+        <label for="day">day</label>
+        </span>
+        </div>
+        </li>
+        </ul>
+        </form>
+
+
+        <ul>
+        <li>
+        <p>名前</p>
+        <input type="text" id="input" placeholder="例）山田 太郎">
+        </li>
+
+        <center>
+        <div class="sosyal">
+        <a href="#" class="facebook">Facebook</a>
+        <a href="#" class="twitter">Twitter</a>
+        </div>
+        </center>
+
+        <input type="text" id="account" placeholder="例)@12345">
+
+
+        <li>
+        <p>メモ</p>
+        <textarea id="text_area" placeholder="例） ルイ・ヴィトンが大好きでプレゼントは他のブランドは受け付けない人。どら焼きが好きらしい"></textarea>
+        </li>
+
+        <li>
+        <p>性別</p>
+        <select name="way" id="sex">
+        <option value="Men">Men</option>
+        <option value="Women">Women</option>
+        <option value="Other">Other</option>
+        </select>
+        </li>
+
+        </ul>
+        
+
+    </main>
+
+    <footer>
+        
+        <ul>
+        <li id="save">登録</li>
+        <li id="clear">クリア</li>
+        </ul>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+
+    //1.Save クリックイベント
+        $("#save").on("click",function(){
+        const title=$("#input").val
+        const data = {
+        date:$("#bday").val(),
+        title:$("#input").val(),
+        account:$("#account").val(),
+        text:$("#text_area").val(),
+        way:$("#sex").val(),
+        };  
+        console.log(data)
+        const jsonData = JSON.stringify(data);
+        console.log(jsonData)
+        localStorage.setItem(title, jsonData);
+        });
+
+    //2.clear クリックイベント
+        $("#clear").on("click", function(){
+        localStorage.removeItem("memo");
+        $("#bday").val("");
+        $("#input").val("");
+        $("#account").val("");
+        $("#text_area").val("");
+        $("#way").val("");
+        });
+
+    //3.ページ読み込み：保存データ取得表示
+        if (localStorage.getItem("memo")){
+        const jsontext= localStorage.getItem("memo");
+        console.log(jsontext);
+        const text =JSON.parse(jsontext);
+        console.assertlog(text);
+        $("#bday").val(bday.bday);
+        $("#input").val(text.title);
+        $("#text_area").val(text.text);
+        $("#way").val(way.way);
+    }
+
+    // 変数を定義
+var nativePicker = document.querySelector('.nativeDatePicker');
+var fallbackPicker = document.querySelector('.fallbackDatePicker');
+var fallbackLabel = document.querySelector('.fallbackLabel');
+
+var yearSelect = document.querySelector('#year');
+var monthSelect = document.querySelector('#month');
+var daySelect = document.querySelector('#day');
+
+// 最初はフォールバックを隠す
+fallbackPicker.style.display = 'none';
+fallbackLabel.style.display = 'none';
+
+// 新しい日付入力が文字列入力にフォールバックされるかどうか
+var test = document.createElement('input');
+
+try {
+    test.type = 'date';
+    } catch (e) {
+    console.log(e.description);
+    }
+
+    // もし文字列入力になるならば、 if() {} ブロックの中のコードを実行する
+    if(test.type === 'text') {
+    // ネイティブの日付選択を隠してフォールバック版を表示
+    nativePicker.style.display = 'none';
+    fallbackPicker.style.display = 'block';
+    fallbackLabel.style.display = 'block';
+
+    // 年と日を動的に生成する
+    // （月は常に同じなのでハードコーディング）
+    populateDays(monthSelect.value);
+    populateYears();
+    }
+
+    function populateDays(month) {
+    // delete the current set of <option> elements out of the
+    // day <select>, ready for the next set to be injected
+    while(daySelect.firstChild){
+        daySelect.removeChild(daySelect.firstChild);
+    }
+
+    // 挿入する日数を保持する変数を作成
+    var dayNum;
+
+    // 31日か30日か？
+    if(month === '1' | month === '3' | month === '5' | month === '7' | month === '8' | month === '10' | month === '12') {
+        dayNum = 31;
+    } else if(month === '4' | month === '6' | month === '9' | month === '11') {
+        dayNum = 30;
+    } else {
+    // 2月の場合は、閏年かどうかを計算する
+    var year = yearSelect.value;
+    var isLeap = new Date(year, 1, 29).getMonth() == 1;
+    isLeap ? dayNum = 29 : dayNum = 28;
+    }
+
+    // <select> に正しい数の新しい <option> 要素を挿入
+    for(i = 1; i <= dayNum; i++) {
+        var option = document.createElement('option');
+        option.textContent = i;
+        daySelect.appendChild(option);
+    }
+
+    // 前回の日が既に設定されていたら、 daySelect の値を
+    // 日に設定し、年を変えたときに1に戻ることを
+    // 避ける
+    if(previousDay) {
+        daySelect.value = previousDay;
+
+        // 前回設定されていた日が大きい数字、例えば31であり、
+        // その後で日数が少ない月 (例えば2月) を選択した場合、
+        // このコードで空欄の日選択を表示するのではなく、
+        // 利用可能な最大の日を選択するように保証する
+        if(daySelect.value === "") {
+        daySelect.value = previousDay - 1;
+        }
+
+        if(daySelect.value === "") {
+        daySelect.value = previousDay - 2;
+        }
+
+        if(daySelect.value === "") {
+        daySelect.value = previousDay - 3;
+        }
+    }
+    }
+
+    function populateYears() {
+    // 今年を数値として取得
+    var date = new Date();
+    var year = date.getFullYear();
+
+    // 今年から100年前までの年が <select> で選択できるようにする
+    for(var i = 0; i <= 100; i++) {
+        var option = document.createElement('option');
+        option.textContent = year-i;
+        yearSelect.appendChild(option);
+    }
+    }
+
+    // 年や月の <select> 値が変更されたら、 populateDays() を
+    // 再実行して日数を調整する
+    yearSelect.onchange = function() {
+    populateDays(monthSelect.value);
+    }
+
+    monthSelect.onchange = function() {
+    populateDays(monthSelect.value);
+    }
+
+    // 日の選択を保存
+    var previousDay;
+
+    // 以前どの日が設定されていたかを保存する
+    // 使い方は populateDays() を参照
+    daySelect.onchange = function() {
+    previousDay = daySelect.value;
+    }
+
+    </script>
+    </body>
+    </html>
